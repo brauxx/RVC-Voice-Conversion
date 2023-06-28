@@ -18,16 +18,15 @@ def audio(filename):
     return torch.tensor(np.copy(audio))[None], sample_rate
 
 
-def model(device, capacity='full'):
+def model(device, capacity="full"):
     """Preloads model from disk"""
     # Bind model and capacity
     torchcrepe.infer.capacity = capacity
     torchcrepe.infer.model = torchcrepe.Crepe(capacity)
 
     # Load weights
-    file = os.path.join(os.path.dirname(__file__), 'assets', f'{capacity}.pth')
-    torchcrepe.infer.model.load_state_dict(
-        torch.load(file, map_location=device))
+    file = os.path.join(os.path.dirname(__file__), "assets", f"{capacity}.pth")
+    torchcrepe.infer.model.load_state_dict(torch.load(file, map_location=device))
 
     # Place on device
     torchcrepe.infer.model = torchcrepe.infer.model.to(torch.device(device))
